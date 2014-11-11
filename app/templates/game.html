@@ -1,0 +1,45 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<div><p>Current Games</p></div>
+
+<!--- show games-->
+<table>
+	<tr>
+		<th>Games:</th>
+		<th>Description:</th>
+	</tr>
+		{% for g in games %}
+	<tr>
+		<td>{{ g.game_name }}</td>
+		<td>{{ g.game_description }}</td>
+	</tr>
+		{% endfor %}
+<table>
+<br><br>
+
+<h3>Create Game</h3>
+<form action="{{ url_for('game') }}" method=post>
+{{ form.hidden_tag() }}
+	<dl>
+		<dt>Game Name:
+		<dd>{{ form.game_name(size=24) }}
+			{% for error in form.game_name.errors %}
+				<span style="color: red;">[{{error}}]</span>
+                        {% endfor %}<br>
+		<dt>Game Description:
+                <dd>{{ form.game_description(cols=32, rows=4) }}
+                        {% for error in form.game_description.errors %}
+                                <span style="color: red;">[{{error}}]</span>
+                        {% endfor %}<br>
+
+                <dd><input type=submit value=Register>
+        </dl>
+</form>
+
+{% endblock %}
+
+
+
+

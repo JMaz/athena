@@ -1,0 +1,40 @@
+<html>
+	<head>
+		{% if title %}
+			<title>{{ title }} - Wargames</title>
+		{% else %}
+			<title>Welcome the Wargames</title>
+		{% endif %}
+	</head>
+	<body>
+		<div>
+			{% if not g.user.is_authenticated() %}
+			<a href="{{ url_for('sign_up') }}">Sign Up</a>|
+			<a href="{{ url_for('login') }}">Login</a>
+			{% endif %}
+			{% if g.user.is_authenticated() %}
+				| <a href="{{ url_for('user', nickname=g.user.nickname) }}">Profile</a>
+				|<a href="{{ url_for('register') }}">Register</a>
+				| <a href="{{ url_for('logout') }}">Logout</a>
+			{% endif %}
+		</div>
+		
+		<hr>
+		
+		<div><a href="{{ url_for('index') }}">Home</a></div>
+		<div><a href="{{ url_for('scoreboard') }}">Scoreboard</a></div>
+		<div><a href="{{ url_for('game') }}">Games</a></div>
+		<div><a href="{{ url_for('download') }}">Downloads</a></div>
+
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<ul>
+					{% for message in messages %}
+						<li>{{ message }} </li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+		{% endwith %}
+		{% block content %}{% endblock %}
+	</body>
+</html>

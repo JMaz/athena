@@ -1,0 +1,31 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+
+{% block content %}
+ <div>
+<p>Scoreboards</p>
+</div>
+
+<!--- show games and scores -->
+{% for g in games %}
+	<b>{{ g.game_name }}</b>
+<table>
+	<tr>
+		<th>Player</th>	
+		<th>Score</th>
+	</tr>
+	{% for s in scores %}
+		{% if s.game_type.game_name == g.game_name %}
+			<tr>
+				<td>{{ s.player.nickname }}</td>
+				<td>{{ s.score }}</td>
+			</tr>
+		{% endif %}
+	{% endfor %}
+<table>
+<br><br>
+{% endfor %}
+
+{% endblock %}
+

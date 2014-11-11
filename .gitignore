@@ -1,0 +1,6 @@
+# no .pyc files
+*.pyc
+*.swp
+tmp/associations/
+tmp/nonces/
+tmp/temp/

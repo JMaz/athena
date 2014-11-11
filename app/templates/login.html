@@ -1,0 +1,26 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Sign In</h1>
+<form action={{ url_for('login') }} method="post">
+	{{form.hidden_tag()}}
+	<p>
+		<dl>
+     			<dt>Username:
+			<dd>{{ form.nickname(size=24) }}
+	
+			{% for error in form.nickname.errors %}
+				<span style="color: red;">[{{error}}]</span>
+			{% endfor %}<br>
+			<dt>Password:
+			<dd>{{ form.password(size=15) }}	
+			{% for error in form.password.errors %}
+                                <span style="color: red;">[{{error}}]</span>
+                        {% endfor %}<br>
+
+	
+	<p>{{ form.remember_me }} Remember Me</p>
+	<p><input type="submit" value="Sign In"></p>
+</form>
+{% endblock %}
