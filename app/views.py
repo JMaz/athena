@@ -229,4 +229,28 @@ def handle_my_custom_event(json):
 	score = json['score']
 	Score.query.filter(Score.user_id==user).filter(Score.game_id==game).update({'score':score})
 	db.session.commit()
-	emit('score_update',{'score':'score has been updated'})
+	emit('update_score',{'score':'score has been updated'})
+
+
+@socketio.on('get_score')
+def handle_my_custom_event(json):
+	user = json['nickname']
+	game = json['game_name']
+	score = Score.query.filter_by(user_id=user,game_id=game).first()
+	nickname = score.user_id
+	game_name = score.game_id	
+	current_score = score.score
+	emit('get_score',{'nickname':nickname,'game_name':game_name,'score':current_score})
+
+
+@socketio.on('get_auth')
+def handle_my_custom_event(json):
+        nickname = json['nickname']
+        password = json['password']
+	user = User.query.filter_by(nickname=nickname,password=password).first()
+	if user is None:
+		emit('get_auth',{'nickname':nickname,'auth':False})
+	else:
+		emit('get_auth',{'nickname':nickname,'auth':True})
+
+
