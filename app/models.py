@@ -49,6 +49,7 @@ class Game(db.Model):
 	game_name = db.Column(db.String(64), primary_key=True)
 	game_description = db.Column(db.String(64), index=True, unique=False)
 	instance = db.relationship('Score', backref='game_type', lazy='dynamic')
+	flags = db.relationship('Flag', backref='game_type',lazy='dynamic')
 
 	def __repr__(self):
                 return '<Game %r>' % (self.game_name)
@@ -64,3 +65,15 @@ class Score(db.Model):
 
 	def __repr__(self):
 		return '<Score %r>' % (self.score)
+
+
+class Flag(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
+	flag_name = db.Column(db.String(15))
+	flag_value = db.Column(db.String(256))
+	points = db.Column(db.Integer, default=1)
+	game_id = db.Column(db.String(64), db.ForeignKey('game.game_name'))
+	
+
+	def __repr__(self):
+		return'<Flag %r>' % (self.flag_name)

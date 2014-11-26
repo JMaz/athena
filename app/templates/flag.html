@@ -1,0 +1,76 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<div><p>Flags</p></div>
+
+<!--- show games-->
+<table>
+        <tr>
+                <th>Games:</th>
+                <th>Description:</th>
+        </tr>
+                {% for g in games %}
+        <tr>
+                <td>{{ g.game_name }}</td>
+                <td>{{ g.game_description }}</td>
+        </tr>
+                {% endfor %}
+<table>
+<br><br>
+
+<!--- show flags-->
+<table>
+        <tr>
+                <th>flag name:</th>
+                <th>value:</th>
+		 <th>points:</th>
+                <th>game:</th>
+
+        </tr>
+                {% for f in flags %}
+        <tr>
+		<td>{{ f.flag_name }}</td>
+                <td>{{ f.flag_value}}</td>
+                <td>{{ f.points }}</td>
+                <td>{{ f.game_id}}</td>
+        </tr>
+                {% endfor %}
+<table>
+<br><br>
+
+
+<h3>Enter Flags</h3>
+<form action="{{ url_for('flag') }}" method=post>
+{{ form.hidden_tag() }}
+        <dl>
+		 <dt>Game Name:
+                <dd>{{ form.game_name(size=24) }}
+                        {% for error in form.game_name.errors %}
+                                <span style="color: red;">[{{error}}]</span>
+                        {% endfor %}<br>
+                <dt>Flag Name:
+                <dd>{{ form.flag_name(size=24) }}
+                        {% for error in form.flag_name.errors %}
+                                <span style="color: red;">[{{error}}]</span>
+                        {% endfor %}<br>
+                <dt>Flag:
+                <dd>{{ form.flag_value(size=256) }}
+                        {% for error in form.flag_value.errors %}
+                                <span style="color: red;">[{{error}}]</span>
+                        {% endfor %}<br>
+
+		<dt>Flag Points:
+                <dd>{{ form.flag_points(size=256) }}
+                        {% for error in form.flag_points.errors %}
+                                <span style="color: red;">[{{error}}]</span>
+                        {% endfor %}<br>
+
+
+                <dd><input type=submit value=Register>
+        </dl>
+</form>
+
+{% endblock %}
+
+

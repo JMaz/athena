@@ -4,8 +4,8 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 from flask.ext.socketio import emit
 from datetime import datetime
 from app import app, db, lm, socketio, salt
-from forms import LoginForm, EditForm, SignUpForm, GameForm, RegisterForm
-from models import User, Game, Score
+from forms import LoginForm, EditForm, SignUpForm, GameForm, RegisterForm, FlagForm
+from models import User, Game, Score, Flag
 
 
 
@@ -70,6 +70,39 @@ def game():
 				user=user,
 				games=games,
 				form=form)
+
+
+@app.route('/flag', methods=['GET', 'POST'])
+@login_required
+def flag():
+        form = FlagForm()
+
+        user = g.user
+        games = Game.query.all()
+	flags = Flag.query.all() 
+
+
+        if form.validate_on_submit():
+                game_name = form.game_name.data
+		flag_name = form.flag_name.data
+		flag_value = form.flag_value.data
+		flag_points = form.flag_points.data
+
+                flag = Flag(game_id=game_name,flag_name=flag_name,flag_value=flag_value,points=flag_points)
+                db.session.add(flag)
+                db.session.commit()
+                flash('Your flag has been added')
+                return redirect(url_for('flag'))
+
+        return render_template("flag.html",
+                                title='Flag',
+                                user=user,
+                                games=games,
+				flags=flags,
+                                form=form)
+
+
+
 
 @app.route('/download')
 @login_required
@@ -211,9 +244,6 @@ def internal_error(error):
 
 
 
-@socketio.on('connect')
-def test_connect():
-	emit('connect_response', {'data':'User Connected'})
 
 @socketio.on('disconnect')
 def test_disconnect():
@@ -222,35 +252,117 @@ def test_disconnect():
 
 
 
-@socketio.on('update_score')
+
+@socketio.on('get_scoreboard')
 def handle_my_custom_event(json):
-	user = json['nickname']
-	game = json['game_name']
-	score = json['score']
-	Score.query.filter(Score.user_id==user).filter(Score.game_id==game).update({'score':score})
-	db.session.commit()
-	emit('update_score',{'score':'score has been updated'})
+        nickname = json['nickname']
+        password = json['password']
+
+        user = User.query.filter_by(nickname=nickname,password=password).first()
+
+        if user is None:
+                emit('get_scoreboard_response',{'msg':'Invalid username or password'})
+        else:
+
+                game_id = json['game_name']
+		game = Game.query.get(game_id)
+
+                if game is None:
+                        emit('get_scoreboard_response',{'msg':'You are not registered for this game or game does not exist.'})
+		else:
+               		scoreboard = game.instance.order_by(Score.score.desc()).all()
+
+                	if scoreboard is None:
+                        	emit('get_scoreboard_response',{'msg':game_id+ ': No instance of this game is being played.'})
+                	else:
+				for s in scoreboard:
+                        		emit('get_scoreboard_response',{'msg':s.user_id + ' ' + str(s.score)})
+
+
+
+@socketio.on('get_games')
+def handle_my_custom_event(json):
+        nickname = json['nickname']
+        password = json['password']
+
+        user = User.query.filter_by(nickname=nickname,password=password).first()
+
+        if user is None:
+                emit('get_score_response',{'msg':'Invalid username or password'})
+        else:
+                score = user.scores.all()
+                if score is None:
+                        emit('get_games_response',{'msg':'You are not registered for any games.'})
+                else:
+			for s in score:
+	                        emit('get_games_response',{'msg':s.game_id}) 
+
 
 
 @socketio.on('get_score')
 def handle_my_custom_event(json):
-	user = json['nickname']
-	game = json['game_name']
-	score = Score.query.filter_by(user_id=user,game_id=game).first()
-	nickname = score.user_id
-	game_name = score.game_id	
-	current_score = score.score
-	emit('get_score',{'nickname':nickname,'game_name':game_name,'score':current_score})
-
-
-@socketio.on('get_auth')
-def handle_my_custom_event(json):
         nickname = json['nickname']
         password = json['password']
+
+        user = User.query.filter_by(nickname=nickname,password=password).first()
+
+        if user is None:
+                emit('get_score_response',{'msg':'Invalid username or password'})
+        else:
+
+                game_id = json['game_name']
+
+                score = Score.query.filter_by(user_id=nickname,game_id=game_id).first()
+
+                if score is None:
+                        emit('get_score_response',{'msg':game_id+ ': You are not registered for this game or game does not exist.'})
+                else:
+			emit('get_score_response',{'msg':'You have '+str(score.score)+' points in '+game_id})			
+
+
+
+
+@socketio.on('submit_flag')
+def handle_my_custom_event(json):
+        nickname = json['nickname']
+	password = json['password']
+
 	user = User.query.filter_by(nickname=nickname,password=password).first()
-	if user is None:
-		emit('get_auth',{'nickname':nickname,'auth':False})
+
+        if user is None:
+                emit('submit_flag_response',{'msg':'Invalid username or password'})
 	else:
-		emit('get_auth',{'nickname':nickname,'auth':True})
 
+		game_id = json['game_name']
 
+		score = Score.query.filter_by(user_id=nickname,game_id=game_id).first()
+	
+		if score is None:
+			emit('submit_flag_response',{'msg':game_id+ ': You are not registered for this game or game does not exist.'})
+		else:
+			flag_name = json['flag_name']
+	
+			flag = Flag.query.filter_by(flag_name=flag_name).first()
+	
+			if flag is None:
+				emit('submit_flag_response',{'msg':flag_name+ ':Flag name does not exist -1 to score'})
+				s = score.score
+				updated = s - 1
+				Score.query.filter(Score.user_id==nickname).filter(Score.game_id==game_id).update({'score':updated})
+				db.session.commit()
+
+			else:
+				flag_value = json['flag_value']
+	
+				if flag.flag_value == flag_value:
+					emit('submit_flag_response',{'msg':flag_name+ ':you gained '+ str(flag.points) +' points'})
+					updated = score.score + flag.points
+					Score.query.filter(Score.user_id==nickname).filter(Score.game_id==game_id).update({'score':updated})
+					db.session.commit()
+				
+				else:
+					emit('submit_flag_response',{'msg':flag_name+ ':you lose '+ str(flag.points) +' points'})
+                                        updated = score.score - flag.points
+                                        Score.query.filter(Score.user_id==nickname).filter(Score.game_id==game_id).update({'score':updated})
+                                        db.session.commit()
+		

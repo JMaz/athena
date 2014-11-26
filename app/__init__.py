@@ -18,6 +18,8 @@ db = SQLAlchemy(app)
 salt = uuid.uuid4().hex
 socketio = SocketIO(app)
 
+
+
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'login'
