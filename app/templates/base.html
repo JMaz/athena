@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<div id="header">
-			<div id="usr_menu">
+			<div class="user">
 				<ul>
 					{% if not g.user.is_authenticated() %}
 						<li><a href="{{ url_for('sign_up') }}">Sign Up</a></li>
@@ -24,7 +24,7 @@
 				</ul>
 			</div>
 		
-			<div id="site_menu">
+			<div class="nav">
 				<ul>
 					<li><a href="{{ url_for('index') }}">Home</a></li>
 					<li><a href="{{ url_for('scoreboard') }}">Scoreboard</a></li>
@@ -35,7 +35,7 @@
 			</div>
 		</div>
 
-		<div>
+		<div id="flash">
 			{% with messages = get_flashed_messages() %}
 				{% if messages %}
 					<ul>
