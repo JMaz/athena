@@ -55,13 +55,13 @@
                                 <span style="color: red;">[{{error}}]</span>
                         {% endfor %}<br>
                 <dt>Flag:
-                <dd>{{ form.flag_value(size=256) }}
+                <dd>{{ form.flag_value(size=50) }}
                         {% for error in form.flag_value.errors %}
                                 <span style="color: red;">[{{error}}]</span>
                         {% endfor %}<br>
 
 		<dt>Flag Points:
-                <dd>{{ form.flag_points(size=256) }}
+                <dd>{{ form.flag_points(size=4) }}
                         {% for error in form.flag_points.errors %}
                                 <span style="color: red;">[{{error}}]</span>
                         {% endfor %}<br>
