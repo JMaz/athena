@@ -63,45 +63,26 @@ pip install flask-socketio
 re-run './run.py'
 open browser to 127.0.0.1:5000
 
-To run simple client (located in the clients directory):
-run 'VIRTUAL_ENV=$HOME/.virtualenv;virtualenv $VIRTUAL_ENV;source $VIRTUAL_ENV/bin/activate;pip install -U socketIO-client'
-
-edit simple_client.py as you wish.
-To run 'python simple_client.py'
+To run click client:
+cd to the click directory
+enter the virtual environment
+type "athena" to read help info
 
 Protocol
 --------
-First Draft.(expandable)
-The first draft of the protocol is meant to be simple and will be
-expanded upon through the duration of the project.
-
 Initially, the server host starts the "Athena" service by listening with
-socket.IO on port 5000 (will change port).  When a client host wishes
+socket.IO on port 5000 (or designated port).  When a client host wishes
 to make use of the service, it establishes a connection with the server
-host. When the connection is established, the "Athena" server sends a
-greeting (not yet working). The client and Athena server then exchange
-commands and responses (respectively) until the connection is closed or
-aborted.
+host. The client and Athena server will exchange commands and responses
+(respectively) until the connection is closed or aborted.
 
 Commands consist of a custom event keyword, possibly followed by one or
 more arguments in the form of a python dictionaries or json. For every command
 the client will receive a responses from the server with a custom event
-handle and either a string or a json. The client will verify connection by
-sending an emit with a custom event handle 'connect'. If the client is
-connected to the server the client will receive the a custom event handle
-'connect_response' containing a json with the key 'data' and value
-'User Connected'.
+handle and either a string or a json. To prevent unauthorized use the client my proved a valid user name and password with all communication.
 
-The client can request scores for a current player by sending an emit
-with the custom event handle ‘score_request’ with a python dictionary
-containing the keys nickname, game, authentication with thier respected
-values. The client will receive a custom event handle 'score_response'
-containing a json with the key 'score' and the score value. The client can
-update a users score by sending an emit with the custom event handle
-'score_update' with a python dictionary containing the users nickname
-game name,score, and authentication along with the respective values.
-The client will receive a custom event handle 'updated_score' containing
-a json with the key 'score' and value 'Score Updated'. 
+The client can request scores for a specific game by sending an emit
+with the custom event handle ‘get_score’ with a python dictionary containing the keys nickname, password, and game name. The client will receive a custom event handle 'get_score_response' containing a json with the key 'msg' and a message. The client can submit a flag by sending an emit with the custom event handle 'submit_flag' with a python dictionary containing the users nickname, password, game name,flag name, and flag value. The client will receive a custom event handle 'submit_flag_response' containing a json with the key 'msg' and value message. The client can request games he/she is registered in by sending an emit with keys nickname and password. The client will receive a custom event handle 'get_game_response containing a json with the key 'msg' and value message. The client can request scoreboards he/she for a game they are registered in by sending an emit with the keys nickname and password. The client will recieve a custom event handle 'get_scoreboard_reponse' containing a json with the key 'msg' and value message. 
 Licensing
 ---------
 N/A at this time.
