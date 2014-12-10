@@ -1,12 +1,7 @@
 body            { background-color: #e6e2dd; white-space:nowrap; }
 
-div		{}
-table		{white-space:nowrap; }
-tr		{}
-td		{}
 ul		{ list-style-type: none; margin: 0; padding: 0; }
 li		{ display: inline; }
-p		{}
 
 a:link		{ text-decoration: none; color: #d9d2bd; }
 a:visited 	{ text-decoration: none; color: #d9d2bd; }
@@ -14,8 +9,6 @@ a:hover		{ text-decoration: underline; color: #a3887a; }
 a:active	{ text-decoration: underline; color: #735457;}
 
 #header 	{ position: relative; top: -10px; background-color: #616655; }
-#usr_menu	{ right: 500px; }
-#site_menu	{ width: 50%; margin: 0 auto;}
 
 .user            { text-align: right; }
 .user ul         { display: inline-block; *display: inline;  }
@@ -25,3 +18,30 @@ a:active	{ text-decoration: underline; color: #735457;}
 .nav		{ text-align: center; }
 .nav ul		{ display: inline-block; *display: inline;  }
 .nav li		{ float: left; padding: 2px 5px; font-size: 150%; }
+
+.flash            { text-align: center; }
+
+.body		{ position: relative; margin:0 auto; width: 50%; }
+.body div	{ position: relative; margin:0 auto; width: 50%; }
+.body h1	{ text-align: center; }
+.body p		{ text-align: justify; margin: 0 auto; width 50%; }
+.body table	{ border-collapse: collapse; margin: 0 auto; width 50%;}
+.body table,td, th { border: 1px solid #735457; }
+.btn-style{
+	border : solid 1px #3f3842;
+	border-radius : 3px;
+	font-size : 16px;
+	color : #d9d2bd;
+	padding : 1px 17px;
+	background : #735457;
+}
+
+.btn-style:hover{
+        border : solid 1px #3f3842;
+        border-radius : 3px;
+        font-size : 16px;
+        color : #3f3842;
+        padding : 1px 17px;
+        background : #a3887a;
+}
+

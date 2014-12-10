@@ -2,7 +2,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div><p>Current Games</p></div>
+<div class="body">
+<h1>Current Games</h1>
 
 <!--- show games-->
 <table>
@@ -34,10 +35,10 @@
                                 <span style="color: red;">[{{error}}]</span>
                         {% endfor %}<br>
 
-                <dd><input type=submit value=Register>
+                <dd><input type=submit value=Submit class="btn-style">
         </dl>
 </form>
-
+</div>
 {% endblock %}
 
 

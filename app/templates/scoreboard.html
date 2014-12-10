@@ -3,14 +3,15 @@
 
 
 {% block content %}
- <div>
-<p>Scoreboards</p>
+ <div class="body">
+<div>
+<h1>Scoreboards</h1>
 </div>
 
 <!--- show games and scores -->
 {% for g in games %}
-	<b>{{ g.game_name }}</b>
 <table>
+	<th colspan="2">{{ g.game_name }}</th>
 	<tr>
 		<th>Player</th>	
 		<th>Score</th>
@@ -25,6 +26,7 @@
 	{% endfor %}
 <table>
 <br><br>
+</div>
 {% endfor %}
 
 {% endblock %}

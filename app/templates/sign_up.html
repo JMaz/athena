@@ -2,6 +2,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="body">
 <h2>Create Account</h2>
 
 <form action="{{ url_for('sign_up') }}" method=post>
@@ -25,8 +26,9 @@
 		<dt>Re-Enter Password:
 			<dd>{{ form.password_check(size=24) }}
 
-		<dd><input type=submit value=Register>
+		<dd><input type=submit value=Register class="btn-style">
 	</dl>
 </form>
+</div>
 {% endblock %}
 
