@@ -1,47 +1,29 @@
-body            { background-color: #e6e2dd; white-space:nowrap; }
+*	{ padding : 0; margin : 0; border : 0; }
+body	{ background-color: #e6e2dd; background-attachment : fixed; background-size : 100% auto; color: #3f3842; }
 
-ul		{ list-style-type: none; margin: 0; padding: 0; }
-li		{ display: inline; }
-
+.blended_grid	{ display : block; width : 1000px; overflow : auto; margin : 0 auto; }
+.pageHeader	{ background-color : #616655; float : left; clear : none; height: 10%; width : 100%; }
 a:link		{ text-decoration: none; color: #d9d2bd; }
 a:visited 	{ text-decoration: none; color: #d9d2bd; }
 a:hover		{ text-decoration: underline; color: #a3887a; }
 a:active	{ text-decoration: underline; color: #735457;}
-
-#header 	{ position: relative; top: -10px; background-color: #616655; }
-
-.user            { text-align: right; }
-.user ul         { display: inline-block; *display: inline;  }
-.user li         { float: left; padding: 2px 5px; font-size: 90%;}
-
-
+.user           { text-align: right; }
+.user ul        { display: inline-block; *display: inline;  }
+.user li        { float: left; padding: 2px 5px; font-size: 90%;}
 .nav		{ text-align: center; }
 .nav ul		{ display: inline-block; *display: inline;  }
 .nav li		{ float: left; padding: 2px 5px; font-size: 150%; }
-
+.pageLeftMenu	{ background-color : #d9d2bd; float : left; clear : none; height : 80%; width : 15%; }
+.pageContent	{ background-color : #d9d2bd; float : left; clear : none; height : 80%;  width : 70%; }
 .flash            { text-align: center; }
-
 .body		{ position: relative; margin:0 auto; width: 50%; }
 .body div	{ position: relative; margin:0 auto; width: 50%; }
 .body h1	{ text-align: center; }
 .body p		{ text-align: justify; margin: 0 auto; width 50%; }
 .body table	{ border-collapse: collapse; margin: 0 auto; width 50%;}
 .body table,td, th { border: 1px solid #735457; }
-.btn-style{
-	border : solid 1px #3f3842;
-	border-radius : 3px;
-	font-size : 16px;
-	color : #d9d2bd;
-	padding : 1px 17px;
-	background : #735457;
-}
-
-.btn-style:hover{
-        border : solid 1px #3f3842;
-        border-radius : 3px;
-        font-size : 16px;
-        color : #3f3842;
-        padding : 1px 17px;
-        background : #a3887a;
-}
+.pageRightMenu	{ background-color : #d9d2bd; float : left; clear : none; height : 80%; width : 15%; }
+.pageFooter	{ background-color : #616655; float : left; clear : none; height : 10%; width : 100% ; }
+.btn-style	{ border : solid 1px #3f3842; border-radius : 3px; font-size : 16px; color : #d9d2bd; padding : 1px 17px; background : #735457; }
+.btn-style:hover{ border : solid 1px #3f3842; border-radius : 3px; font-size : 16px; color : #3f3842; padding : 1px 17px; background : #a3887a; }
 

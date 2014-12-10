@@ -1,53 +1,65 @@
-<html>
-	
+<html>	
 	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 		{% if title %}
 			<title>{{ title }} - Wargames</title>
 		{% else %}
 			<title>Welcome the Wargames</title>
 		{% endif %}
+		<meta name="description" content="Write some words to describe your html page">
 	</head>
 	<body>
-		<div id="header">
-			<div class="user">
-				<ul>
-					{% if not g.user.is_authenticated() %}
-						<li><a href="{{ url_for('sign_up') }}">Sign Up</a></li>
-						<li><a href="{{ url_for('login') }}">Login</a></li>
-					{% endif %}
-					{% if g.user.is_authenticated() %}
-						<li><a href="{{ url_for('user', nickname=g.user.nickname) }}">Profile</a></li>
-						<li><a href="{{ url_for('register') }}">Register</a></li>
-						<li><a href="{{ url_for('logout') }}">Logout</a></li>
-					{% endif %}
-				</ul>
-			</div>
-		
-			<div class="nav">
-				<ul>
-					<li><a href="{{ url_for('index') }}">Home</a></li>
-					<li><a href="{{ url_for('scoreboard') }}">Scoreboard</a></li>
-					<li><a href="{{ url_for('game') }}">Games</a></li>
-					<li><a href="{{ url_for('flag') }}">Flags</a></li>
-					<li><a href="{{ url_for('download') }}">Downloads</a></li>
-				</ul>
-			</div>
-		</div>
-
-		<div>
-			{% with messages = get_flashed_messages() %}
-				{% if messages %}
-				<div class="flash">
+		<div class="blended_grid">
+			<div class="pageHeader">	
+				<div class="user">
 					<ul>
-						{% for message in messages %}
-							<li>{{ message }} </li>
-						{% endfor %}
+						{% if not g.user.is_authenticated() %}
+							<li><a href="{{ url_for('sign_up') }}">Sign Up</a></li>
+							<li><a href="{{ url_for('login') }}">Login</a></li>
+						{% endif %}
+						{% if g.user.is_authenticated() %}
+							<li><a href="{{ url_for('user', nickname=g.user.nickname) }}">Profile</a></li>
+							<li><a href="{{ url_for('register') }}">Register</a></li>
+							<li><a href="{{ url_for('logout') }}">Logout</a></li>
+						{% endif %}
 					</ul>
 				</div>
-				{% endif %}
-			{% endwith %}
-			{% block content %}{% endblock %}
+		
+				<div class="nav">
+					<ul>
+						<li><a href="{{ url_for('index') }}">Home</a></li>
+						<li><a href="{{ url_for('scoreboard') }}">Scoreboard</a></li>
+						<li><a href="{{ url_for('game') }}">Games</a></li>
+						<li><a href="{{ url_for('flag') }}">Flags</a></li>
+						<li><a href="{{ url_for('download') }}">Downloads</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="pageLeftMenu">
+			</div>
+
+			<div class="pageContent">
+				{% with messages = get_flashed_messages() %}
+					{% if messages %}
+					<div class="flash">
+						<ul>
+							{% for message in messages %}
+								<li>{{ message }} </li>
+							{% endfor %}
+						</ul>
+					</div>
+					{% endif %}
+				{% endwith %}
+				{% block content %}{% endblock %}
+			</div>
+			
+			<div class="pageRightMenu">
+			</div>
+			
+			<div class="pageFooter">
+			</div>
 		</div>
 	</body>
 </html>
